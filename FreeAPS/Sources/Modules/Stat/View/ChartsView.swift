@@ -18,11 +18,9 @@ struct ChartsView: View {
 
     var body: some View {
         glucoseChart
-        Rectangle().fill(.cyan.opacity(0.2)).frame(maxHeight: 3)
         if standing {
-            VStack {
+            VStack(spacing: 20) {
                 tirChart
-                Rectangle().fill(.cyan.opacity(0.2)).frame(maxHeight: 3)
                 groupedGlucoseStatsLaying
             }
         } else {
