@@ -37,7 +37,6 @@ extension Stat {
 
         @ViewBuilder func stats() -> some View {
             ZStack {
-                Color.gray.opacity(0.05).ignoresSafeArea(.all)
                 let filter = DateFilter()
                 switch selectedDuration {
                 case .Today:
@@ -136,14 +135,15 @@ extension Stat {
         }
 
         var body: some View {
-            VStack(alignment: .center) {
-                chart().padding(.top, 20)
-                Picker("Duration", selection: $selectedDuration) {
-                    ForEach(Duration.allCases) { duration in
-                        Text(NSLocalizedString(duration.rawValue, comment: "")).tag(Optional(duration))
+            HStack {
+                VStack(alignment: .center, spacing: 16) {
+                    chart().padding(.top, 20)
+                    Picker("Duration", selection: $selectedDuration) {
+                        ForEach(Duration.allCases) { duration in
+                            Text(NSLocalizedString(duration.rawValue, comment: "")).tag(Optional(duration))
+                        }
                     }
-                }
-                .pickerStyle(.segmented).background(.cyan.opacity(0.2))
+                .pickerStyle(.segmented)
                 stats()
             }
             .onAppear(perform: configureView)
