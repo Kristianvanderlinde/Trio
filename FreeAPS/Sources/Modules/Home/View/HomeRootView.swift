@@ -518,7 +518,7 @@ extension Home {
                     Button { state.showModal(for: .statistics)
                     }
                     label: {
-                        Image(systemName: "chart.xyaxis.line")
+                        Image("stats")
                             .renderingMode(.template)
                             .resizable()
                             .frame(width: 24, height: 24)
@@ -562,10 +562,11 @@ extension Home {
             .popup(isPresented: isStatusPopupPresented, alignment: .top, direction: .top) {
                 popup
                     .padding()
-                    .background(
-                        RoundedRectangle(cornerRadius: 8, style: .continuous)
-                            .fill(Color(UIColor.darkGray))
-                    )
+                    .background(.thinMaterial) // Apple’s ingebouwde blur-effect
+                    .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+                    .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 10)
+                    .padding(.horizontal, 16) // Ruimte aan de zijkanten
+                    .padding(.top, 8) // Ruimte tussen de popup en de bovenkant
                     .onTapGesture {
                         isStatusPopupPresented = false
                     }

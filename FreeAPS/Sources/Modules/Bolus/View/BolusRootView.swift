@@ -124,8 +124,10 @@ extension Bolus {
             .navigationTitle("Enact Bolus")
             .navigationBarTitleDisplayMode(.automatic)
             .navigationBarItems(leading: Button("Close", action: state.hideModal))
-            .popup(isPresented: presentInfo, alignment: .center, direction: .bottom) {
+            .popup(isPresented: presentInfo, alignment: .bottom, direction: .bottom) {
                 bolusInfo
+                    .padding(.horizontal, 16)
+                    .padding(.bottom, 16)
             }
         }
 
@@ -217,11 +219,9 @@ extension Bolus {
                         .foregroundColor(.blue)
                 }.padding(.bottom, 10)
             }
-            .background(
-                RoundedRectangle(cornerRadius: 8, style: .continuous)
-                    .fill(Color(colorScheme == .dark ? UIColor.systemGray4 : UIColor.systemGray4))
-                // .fill(Color(.systemGray).gradient)  // A more prominent pop-up, but harder to read
-            )
+            .background(.thinMaterial) // Apple’s ingebouwde blur-effect
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+            .shadow(color: Color.black.opacity(0.3), radius: 20, x: 0, y: 10)
         }
 
         // Localize the Oref0 error/warning strings. The default should never be returned

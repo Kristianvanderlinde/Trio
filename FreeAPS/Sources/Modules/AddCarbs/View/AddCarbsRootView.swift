@@ -97,7 +97,7 @@ extension AddCarbs {
                                             .fat && (((state.selection?.protein ?? 0) as NSDecimalNumber) as Decimal) ==
                                             state
                                             .protein
-                                    ) ? .secondary : .orange
+                                    ) ? .secondary : .blue
                             )
                             .disabled(
                                 (state.carbs <= 0 && state.fat <= 0 && state.protein <= 0) ||
@@ -205,7 +205,7 @@ extension AddCarbs {
                         showAlert.toggle()
                     }
                     .disabled(state.selection == nil)
-                    .accentColor(.orange)
+                    .accentColor(.red)
                     .buttonStyle(BorderlessButtonStyle())
                     .alert(
                         "Delete preset '\(state.selection?.dish ?? "")'?",
@@ -245,17 +245,22 @@ extension AddCarbs {
                         state.removePresetFromNewMeal()
                         if state.carbs == 0, state.fat == 0, state.protein == 0 { state.summation = [] }
                     }
-                    label: { Text("[ -1 ]") }
+                    label:
+                        { Image("minus")
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 24, height: 24) }
                         .disabled(
                             state
                                 .selection == nil ||
                                 (
-                                    !state.summation.contains(state.selection?.dish ?? "") && (state.selection?.dish ?? "") != ""
+                                    !state.summation
+                                        .contains(state.selection?.dish ?? "") && (state.selection?.dish ?? "") != ""
                                 )
                         )
                         .buttonStyle(BorderlessButtonStyle())
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                        .accentColor(.minus)
+                        .accentColor(.blue)
                     Button {
                         state.carbs += ((state.selection?.carbs ?? 0) as NSDecimalNumber) as Decimal
                         state.fat += ((state.selection?.fat ?? 0) as NSDecimalNumber) as Decimal
@@ -263,7 +268,11 @@ extension AddCarbs {
 
                         state.addPresetToNewMeal()
                     }
-                    label: { Text("[ +1 ]") }
+                    label: {
+                        Image("plus")
+                            .renderingMode(.template)
+                            .resizable()
+                            .frame(width: 24, height: 24) }
                         .disabled(state.selection == nil)
                         .buttonStyle(BorderlessButtonStyle())
                         .accentColor(.blue)
@@ -273,13 +282,13 @@ extension AddCarbs {
 
         @ViewBuilder private func proteinAndFat() -> some View {
             HStack {
-                Text("Fat").foregroundColor(.orange) // .fontWeight(.thin)
+                Text("Fat") // .fontWeight(.thin)
                 Spacer()
                 TextFieldWithToolBar(text: $state.fat, placeholder: "0", numberFormatter: formatter)
                 Text(state.fat > state.maxFat ? "⚠️" : "g").foregroundColor(.secondary)
             }
             HStack {
-                Text("Protein").foregroundColor(.red) // .fontWeight(.thin)
+                Text("Protein") // .fontWeight(.thin)
                 Spacer()
                 TextFieldWithToolBar(text: $state.protein, placeholder: "0", numberFormatter: formatter)
                 Text(state.protein > state.maxProtein ? "⚠️" : "g").foregroundColor(.secondary)
